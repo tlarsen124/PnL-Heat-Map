@@ -114,7 +114,7 @@ sigma_steps = st.sidebar.slider("Vol steps", min_value=10, max_value=50, value=2
 
 st.sidebar.header("PnL Chart")
 option_type = st.sidebar.selectbox("Option Type", ["call", "put"], index=0)
-purchase = st.sidebar.number_input("Purchase Price", value=100.0, format="%.2f")
+purchase = st.sidebar.number_input("Purchase Price", value=1.0, format="%.2f")
 
 
 # Visualization options
@@ -269,18 +269,19 @@ with col2:
 # ---------------------------
 # Heatmap 3: Option price decay for selected option type (Spot vs Time)
 # ---------------------------
-# Create T and S grids
+# Create T and S grids (time decays from chosen_T down to 0)
 T_decay_values = np.linspace(chosen_T, 0, 50)
 S_decay_values = np.linspace(S_min, S_max, S_steps)
 S_decay_grid, T_decay_grid = np.meshgrid(S_decay_values, T_decay_values)
 
-# Calculate option price grid (Black-Scholes)
-price_decay_grid = black_scholes_price(
-    S_decay_grid, K, r, q, chosen_sigma, T_decay_grid, option_type
-)
+# Calculate purchase price at current chosen inputs dynamically
+purchase_price = black_scholes_price(chosen_spot, K, r, q, chosen_sigma, chosen_T, option_type)
 
-# Difference = calculated price - purchase price
-diff_grid = price_decay_grid - purchase
+# Calculate option price grid for entire S and T grid
+price_decay_grid = black_scholes_price(S_decay_grid, K, r, q, chosen_sigma, T_decay_grid, option_type)
+
+# Calculate difference grid: price at grid points minus purchase price
+diff_grid = price_decay_grid - purchase_price
 
 st.markdown("---")
 st.markdown(
@@ -291,20 +292,21 @@ st.markdown(
 fig_decay = go.Figure()
 
 heatmap_decay = go.Heatmap(
-    z=diff_grid,  # use the difference grid
+    z=diff_grid,
     x=np.round(T_decay_values, 4),
     y=np.round(S_decay_values, 2),
     colorscale=colormap.lower(),
     reversescale=False,
-   hovertemplate=(
-    "Time to expiry: %{x:.4f}<br>"
-    "Spot: %{y}<br>"
-    "Difference: %{z:.4f}<extra></extra>"
-),
-    text=np.round(diff_grid, 2).astype(str),  # numbers displayed are differences
+    hovertemplate=(
+        "Time to expiry: %{x:.4f}<br>"
+        "Spot: %{y}<br>"
+        "Difference: %{z:.4f}<extra></extra>"
+    ),
+    text=np.round(diff_grid, 2).astype(str),
     texttemplate="%{text}",
     textfont={"size": 9},
 )
+
 fig_decay.add_trace(heatmap_decay)
 
 if show_contours:
@@ -332,34 +334,10 @@ fig_decay.update_layout(
     yaxis_title="Underlying Asset Price (S)",
 )
 
-if show_contours:
-    fig_decay.add_trace(go.Contour(
-        z=price_decay_grid,
-        x=np.round(T_decay_values, 4),
-        y=np.round(S_decay_values, 2),
-        contours=dict(
-            coloring="none",
-            showlabels=True,
-            start=np.nanmin(price_decay_grid),
-            end=np.nanmax(price_decay_grid),
-            size=(np.nanmax(price_decay_grid) - np.nanmin(price_decay_grid))/8,
-        ),
-        line_width=1,
-        colorscale="Greys",
-        showscale=False,
-    ))
-
-fig_decay.update_layout(
-    height=650,
-    xaxis_autorange='reversed',
-    margin=dict(t=50, l=50, r=50, b=50),
-    xaxis_title="Time to expiry (years)",
-    yaxis_title="Underlying Asset Price (S)",
-)
-
 st.plotly_chart(fig_decay, use_container_width=True)
 
 st.markdown("---")
+
 
 # ---------------------------
 # Show raw grids as tables for reference
