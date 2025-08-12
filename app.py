@@ -114,7 +114,7 @@ sigma_steps = st.sidebar.slider("Vol steps", min_value=10, max_value=50, value=2
 
 st.sidebar.header("PnL Chart")
 option_type = st.sidebar.selectbox("Option Type", ["call", "put"], index=0)
-purchase = st.sidebar.number_input("Purchase Price", value=1.0, format="%.2f")
+purchase = st.sidebar.number_input("Purchase Price", value=5.0, format="%.2f")
 
 
 # Visualization options
