@@ -282,6 +282,12 @@ price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid
 # Create heatmap plotly figure
 fig_time = go.Figure()
 
+custom_diverging_colorscale = [
+    [0.0, 'red'],
+    [0.5, 'white'],
+    [1.0, 'green'],
+]
+
 # First add the heatmap without text
 heatmap_time = go.Heatmap(
     z=price_grid_time,
