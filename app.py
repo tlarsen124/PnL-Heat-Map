@@ -169,7 +169,7 @@ st.dataframe(styled_df, width=700, height=180)
 
 st.markdown(
     """
-    <div style="display: flex; justify-content: space-between; width: 90%; margin-top: 10px;">
+    <div style="display: flex; justify-content: flex-start; width: 90%; margin-top: 10px;">
         <div style="
             font-size: 30px; 
             font-weight: bold; 
