@@ -282,12 +282,7 @@ price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid
 # Create heatmap plotly figure
 fig_time = go.Figure()
 
-custom_diverging_colorscale = [
-    [0.0, 'red'],
-    [0.5, 'white'],
-    [1.0, 'green'],
-]
-
+# First add the heatmap without text
 heatmap_time = go.Heatmap(
     z=price_grid_time,
     x=np.round(T_values, 4),     # Time on X axis
@@ -296,10 +291,30 @@ heatmap_time = go.Heatmap(
     zmid=0,
     reversescale=False,
     hovertemplate="Time to expiry: %{x:.4f}<br>Spot: %{y}<br>Price Diff: %{z:.4f}<extra></extra>",
-    text=np.round(price_grid_time, 2).astype(str),
-    texttemplate="%{text}",
-    textfont={"size": 9},
+    showscale=True,
 )
+
+fig_time.add_trace(heatmap_time)
+
+# Create text labels as strings
+text_labels = np.round(price_grid_time, 2).astype(str)
+
+# Flatten grids for scatter trace (plotly needs 1D arrays)
+x_flat = np.repeat(np.round(T_values, 4), len(S_values_time))
+y_flat = np.tile(np.round(S_values_time, 2), len(T_values))
+text_flat = text_labels.T.flatten()  # transpose so it aligns with x,y
+
+# Add scatter trace with text and marker backgrounds
+fig_time.add_trace(go.Scatter(
+    x=x_flat,
+    y=y_flat,
+    mode='text',
+    text=text_flat,
+    textfont=dict(color='black', size=9),
+    hoverinfo='skip',
+))
+
+
 
 
 if show_contours:
