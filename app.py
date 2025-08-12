@@ -170,10 +170,10 @@ st.dataframe(styled_df, width=700, height=180)
 st.markdown(
     """
     <div style="display: flex; justify-content: space-between; width: 100%; margin-top: 10px;">
-        <div style="font-size: 30px; font-weight: bold; color: #2e7d32; padding-left: 160px;">
+        <div style="font-size: 30px; font-weight: bold; color: #2e7d32; padding-left: 190px;">
             Call Price: {:.4f}
         </div>
-        <div style="font-size: 30px; font-weight: bold; color: #c62828; padding-right: 190px;">
+        <div style="font-size: 30px; font-weight: bold; color: #c62828; padding-right: 220px;">
             Put Price: {:.4f}
         </div>
     </div>
