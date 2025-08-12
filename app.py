@@ -103,14 +103,14 @@ st.sidebar.header("Heatmap Parameters")
 # Spot range and steps
 S_min = st.sidebar.number_input("Spot min", value=80.0, format="%.2f")
 S_max = st.sidebar.number_input("Spot max", value=120.0, format="%.2f")
-S_steps = st.sidebar.slider("Spot steps", min_value=20, max_value=50, value=20, step=1)
+S_steps = st.sidebar.slider("Spot steps", min_value=5, max_value=30, value=10, step=1)
 
 
 
 # Volatility range and steps
 sigma_min = st.sidebar.number_input("Volatility min (σ)", value=0.05, min_value=0.0001, format="%.2f")
 sigma_max = st.sidebar.number_input("Volatility max (σ)", value=0.6, min_value=0.0001, format="%.2f")
-sigma_steps = st.sidebar.slider("Vol steps", min_value=10, max_value=50, value=20, step=1)
+sigma_steps = st.sidebar.slider("Vol steps", min_value=5, max_value=30, value=10, step=1)
 
 st.sidebar.header("PnL Chart")
 option_type = st.sidebar.selectbox("Option Type", ["call", "put"], index=0)
