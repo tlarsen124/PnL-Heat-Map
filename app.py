@@ -277,7 +277,7 @@ S_values_time = np.linspace(S_min, S_max, S_steps)  # Spot price range
 T_grid, S_grid_time = np.meshgrid(T_values, S_values_time)  # Note order: X=T, Y=S
 
 # Calculate option price grid for chosen volatility and option type
-price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid, option_type)
+price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid, option_type) - purchase
 
 # Create heatmap plotly figure
 fig_time = go.Figure()
