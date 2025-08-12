@@ -190,9 +190,9 @@ st.markdown(
             color: #c62828; 
             background-color: #f8d7da;  /* light red */
             padding: 15px 50px; 
+            margin-left: 80px; 
             border-radius: 12px; 
             width: 45%;
-            margin-left: 80px; 
             text-align: center;
             box-sizing: border-box;
             ">
