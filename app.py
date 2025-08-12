@@ -269,74 +269,63 @@ with col2:
 # ---------------------------
 # Heatmap 3: Option price decay for selected option type (Spot vs Time)
 # ---------------------------
-# Create T and S grids (time decays from chosen_T down to 0)
-T_decay_values = np.linspace(chosen_T, 0, 50)
-S_decay_values = np.linspace(S_min, S_max, S_steps)
-S_decay_grid, T_decay_grid = np.meshgrid(S_decay_values, T_decay_values)
+# Define the grids
+T_values = np.linspace(chosen_T, 0, 50)  # Time to expiry from chosen_T down to 0
+S_values_time = np.linspace(S_min, S_max, S_steps)  # Spot price range
 
-# Calculate purchase price at current chosen inputs dynamically
-purchase_price = black_scholes_price(chosen_spot, K, r, q, chosen_sigma, chosen_T, option_type)
+# Create meshgrid with Spot on Y and Time on X
+T_grid, S_grid_time = np.meshgrid(T_values, S_values_time)  # Note order: X=T, Y=S
 
-# Calculate option price grid for entire S and T grid
-price_decay_grid = black_scholes_price(S_decay_grid, K, r, q, chosen_sigma, T_decay_grid, option_type)
+# Calculate option price grid for chosen volatility and option type
+price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid, option_type)
 
-# Calculate difference grid: price at grid points minus purchase price
-diff_grid = price_decay_grid - purchase_price
+# Create heatmap plotly figure
+fig_time = go.Figure()
 
-st.markdown("---")
-st.markdown(
-    f"### {option_type.capitalize()} Price Difference (Calculated - Purchase) "
-    "vs Underlying Asset Price and Time to Expiry"
-)
-
-fig_decay = go.Figure()
-
-heatmap_decay = go.Heatmap(
-    z=diff_grid,
-    x=np.round(T_decay_values, 4),
-    y=np.round(S_decay_values, 2),
+heatmap_time = go.Heatmap(
+    z=price_grid_time,
+    x=np.round(T_values, 4),     # Time on X axis
+    y=np.round(S_values_time, 2), # Spot on Y axis
     colorscale=colormap.lower(),
     reversescale=False,
-    hovertemplate=(
-        "Time to expiry: %{x:.4f}<br>"
-        "Spot: %{y}<br>"
-        "Difference: %{z:.4f}<extra></extra>"
-    ),
-    text=np.round(diff_grid, 2).astype(str),
+    hovertemplate="Time to expiry: %{x:.4f}<br>Spot: %{y}<br>Price: %{z:.4f}<extra></extra>",
+    text=np.round(price_grid_time, 2).astype(str),
     texttemplate="%{text}",
     textfont={"size": 9},
 )
 
-fig_decay.add_trace(heatmap_decay)
+fig_time.add_trace(heatmap_time)
 
 if show_contours:
-    fig_decay.add_trace(go.Contour(
-        z=diff_grid,
-        x=np.round(T_decay_values, 4),
-        y=np.round(S_decay_values, 2),
+    fig_time.add_trace(go.Contour(
+        z=price_grid_time,
+        x=np.round(T_values, 4),
+        y=np.round(S_values_time, 2),
         contours=dict(
             coloring="none",
             showlabels=True,
-            start=np.nanmin(diff_grid),
-            end=np.nanmax(diff_grid),
-            size=(np.nanmax(diff_grid) - np.nanmin(diff_grid)) / 8,
+            start=np.nanmin(price_grid_time),
+            end=np.nanmax(price_grid_time),
+            size=(np.nanmax(price_grid_time) - np.nanmin(price_grid_time)) / 8,
         ),
         line_width=1,
         colorscale="Greys",
         showscale=False,
     ))
 
-fig_decay.update_layout(
+fig_time.update_layout(
     height=650,
-    xaxis_autorange='reversed',
     margin=dict(t=50, l=50, r=50, b=50),
     xaxis_title="Time to expiry (years)",
     yaxis_title="Underlying Asset Price (S)",
+    xaxis_autorange='reversed',  # optional: time decays left to right
 )
 
-st.plotly_chart(fig_decay, use_container_width=True)
-
 st.markdown("---")
+st.markdown(f"### Option Price Heatmap: Spot Price vs Time to Expiry ({option_type.capitalize()})")
+st.plotly_chart(fig_time, use_container_width=True)
+st.markdown("---")
+
 
 
 # ---------------------------
