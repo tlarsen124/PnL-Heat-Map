@@ -295,11 +295,11 @@ heatmap_decay = go.Heatmap(
     y=np.round(S_decay_values, 2),
     colorscale=colormap.lower(),
     reversescale=False,
-    hovertemplate=(
-        "Time to expiry: %{x:.4f}<br>"
-        "Spot: %{y}<br>"
-        f"Difference: %{z:.4f}<extra></extra>"
-    ),
+   hovertemplate=(
+    "Time to expiry: %{x:.4f}<br>"
+    "Spot: %{y}<br>"
+    "Difference: %{z:.4f}<extra></extra>"
+),
     text=np.round(diff_grid, 2).astype(str),  # numbers displayed are differences
     texttemplate="%{text}",
     textfont={"size": 9},
