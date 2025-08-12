@@ -282,19 +282,25 @@ price_grid_time = black_scholes_price(S_grid_time, K, r, q, chosen_sigma, T_grid
 # Create heatmap plotly figure
 fig_time = go.Figure()
 
+custom_diverging_colorscale = [
+    [0.0, 'red'],
+    [0.5, 'white'],
+    [1.0, 'green'],
+]
+
 heatmap_time = go.Heatmap(
     z=price_grid_time,
     x=np.round(T_values, 4),     # Time on X axis
     y=np.round(S_values_time, 2), # Spot on Y axis
-    colorscale=colormap.lower(),
+    colorscale=custom_diverging_colorscale,
+    zmid=0,
     reversescale=False,
-    hovertemplate="Time to expiry: %{x:.4f}<br>Spot: %{y}<br>Price: %{z:.4f}<extra></extra>",
+    hovertemplate="Time to expiry: %{x:.4f}<br>Spot: %{y}<br>Price Diff: %{z:.4f}<extra></extra>",
     text=np.round(price_grid_time, 2).astype(str),
     texttemplate="%{text}",
     textfont={"size": 9},
 )
 
-fig_time.add_trace(heatmap_time)
 
 if show_contours:
     fig_time.add_trace(go.Contour(
