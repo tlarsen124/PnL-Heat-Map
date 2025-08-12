@@ -173,7 +173,7 @@ st.markdown(
         <div style="font-size: 30px; font-weight: bold; color: #2e7d32; padding-left: 160px;">
             Call Price: {:.4f}
         </div>
-        <div style="font-size: 30px; font-weight: bold; color: #c62828; padding-right: 160px;">
+        <div style="font-size: 30px; font-weight: bold; color: #c62828; padding-right: 190px;">
             Put Price: {:.4f}
         </div>
     </div>
