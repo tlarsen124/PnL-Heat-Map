@@ -178,6 +178,7 @@ st.markdown(
             padding: 15px 50px; 
             border-radius: 12px; 
             width: 45%;
+            margin-left: 20px; 
             text-align: center;
             box-sizing: border-box;
             ">
@@ -191,6 +192,7 @@ st.markdown(
             padding: 15px 50px; 
             border-radius: 12px; 
             width: 45%;
+            margin-left: 20px; 
             text-align: center;
             box-sizing: border-box;
             ">
