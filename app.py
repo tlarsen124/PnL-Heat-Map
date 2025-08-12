@@ -175,7 +175,7 @@ st.markdown(
             font-weight: bold; 
             color: #2e7d32; 
             background-color: #d0f0c0;  /* light green */
-            padding: 15px 50px; 
+            padding: 15px 25px; 
             border-radius: 12px; 
             width: 45%;
             margin-left: 40px; 
@@ -189,7 +189,7 @@ st.markdown(
             font-weight: bold; 
             color: #c62828; 
             background-color: #f8d7da;  /* light red */
-            padding: 15px 50px; 
+            padding: 15px 25px; 
             margin-left: 80px; 
             border-radius: 12px; 
             width: 45%;
