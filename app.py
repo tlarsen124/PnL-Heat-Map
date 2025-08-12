@@ -177,7 +177,7 @@ st.markdown(
             background-color: #d0f0c0;  /* light green */
             padding: 15px 25px; 
             border-radius: 12px; 
-            width: 45%;
+            width: 38%;
             margin-left: 40px; 
             text-align: center;
             box-sizing: border-box;
@@ -192,7 +192,7 @@ st.markdown(
             padding: 15px 25px; 
             margin-left: 80px; 
             border-radius: 12px; 
-            width: 45%;
+            width: 38%;
             text-align: center;
             box-sizing: border-box;
             ">
