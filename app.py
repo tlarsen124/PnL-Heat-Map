@@ -101,8 +101,8 @@ chosen_T = st.sidebar.number_input("Time to expiry (years) T", value=0.5, min_va
 
 st.sidebar.header("Heatmap Parameters")
 # Spot range and steps
-S_min = st.sidebar.number_input("Spot min", value=50.0, format="%.2f")
-S_max = st.sidebar.number_input("Spot max", value=150.0, format="%.2f")
+S_min = st.sidebar.number_input("Spot min", value=80.0, format="%.2f")
+S_max = st.sidebar.number_input("Spot max", value=120.0, format="%.2f")
 S_steps = st.sidebar.slider("Spot steps", min_value=20, max_value=50, value=20, step=1)
 
 
