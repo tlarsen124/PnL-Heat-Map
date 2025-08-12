@@ -192,7 +192,7 @@ st.markdown(
             padding: 15px 25px; 
             margin-left: 80px; 
             border-radius: 12px; 
-            margin-right: 65px; 
+            margin-right: 50px; 
             width: 38%;
             text-align: center;
             box-sizing: border-box;
